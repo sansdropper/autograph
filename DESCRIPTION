@@ -9,3 +9,8 @@ License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 Type: Package
+Imports:
+        tidyverse,
+        data.table,
+        dlookr,
+        caret
