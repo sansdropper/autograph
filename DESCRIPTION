@@ -1,0 +1,11 @@
+Package: autoGraph
+Type: Package
+Title: Automated Graphs (Title Case)
+Version: 0.1.0
+Author: Avik Das
+Maintainer: Avik Das <avikd16@yahoo.in>
+Description: Performs basic Exploratory Data Analaysis,variable Selection and Univariate and Bivariate Graphs
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+Type: Package
