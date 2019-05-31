@@ -355,16 +355,17 @@ autoGraph<-function (df,
   #Variable Selection Module
   print("Variables Selected")
   optimum<-varSelect(data=df,y,MissThreshold = MissThreshold,corthresh = corthresh,maxFact = maxFact)
+  print(optimum)
 
   #Dataframe with optimum variables
   df<-select(df,optimum)
 
   #Plots using univariate
-  print("Univariate Data")
+  print("Univariate Data-Plotting Univariates")
   DT1<-univariate(df,bins=bins,color="steelblue",uniCont = uniCont)
 
   #Plots using bivariate
-  print("Bivariate Data")
+  print("Bivariate Data-Plotting Bivariates")
   DT2<-bivariate(df,r=y)
 
   #Combined
