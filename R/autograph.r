@@ -10,7 +10,7 @@
 #' @param capfloor      [logical | Optional] Features with outliers will be capped and floored,only apllies to continuous and discrete features. Defaults to FALSE.
 #' @param CorThresh     [Numerical | Optional]Absolute value of Correlation above which Variables will be eliminated.Defaults to .9.
 #' @param maxFact       [Numerical | Optional]Maximum number of Factors that a Category is allowed to have.Defaults to 25.
-#' @param color         [character | Optional]Plot outline color.Sefaults to 'SteelBlue' 
+#' @param color         [character | Optional]Plot outline color.Sefaults to 'SteelBlue'
 #' @param alpha         [Numerical | Optional]Transparency.Defaults to 0.5.
 #' @param fill          [character | Optional]Plot Fill Color.Defaults to color.
 #' @param DT            [character | Optional]Interim DataTable to showcase results.Defaults to NULL.
@@ -133,34 +133,34 @@ varSelect<-function(data,y=NULL,MissThreshold=50,corthresh=.9,maxFact=25,ID=NULL
 
 #Capping and Flooring
 Outclip <-function(data, y=NULL)
-  
+
 {
-  
+
   if(is.null(y) == TRUE)
   {for(i in colnames(data))
-  { 
-    if(class(data[,i]) == "numeric")
+  {
+    if(class(data[[i]]) == "numeric")
     {
       Q3<-quantile(data[[i]],.99,type = 7)
       Q1<-quantile(data[[i]],.01,type = 7)
       data[,i] <- ifelse(data[,i] < Q1,Q1,data[,i])
-      data[,i] <- ifelse(data[,i] > Q3,Q3,data[,i]) 
+      data[,i] <- ifelse(data[,i] > Q3,Q3,data[,i])
     }
   }
   }
   else
   {for(i in colnames(data) & i!=y)
-  {  
-    if(class(data[,i]) == "numeric")
+  {
+    if(class(data[[i]) == "numeric")
     { Q3<-quantile(data[[i]],.99,type = 7)
     Q1<-quantile(data[[i]],.01,type = 7)
     data[,i] <- ifelse(data[,i] < Q1,Q1,data[,i])
-    data[,i] <- ifelse(data[,i] > Q3,Q3,data[,i]) 
+    data[,i] <- ifelse(data[,i] > Q3,Q3,data[,i])
     }
   }
   }
   return(data)
-} 
+}
 # Plotting Functions
 
 #1. freqpoly   # Needs a single continuous variable thats divided to bins,shows with lines  #validated
@@ -397,17 +397,17 @@ autoGraph<-function (df,
   print("Variables Selected")
   optimum<-varSelect(data=df,y,MissThreshold = MissThreshold,corthresh = corthresh,maxFact = maxFact,ID=ID)
   print(optimum)
-  
+
   #Dataframe with optimum variables
   df<-select(df,optimum)
 
   #Outlier Clipping
   if(capfloor==TRUE)
   {
-    df<-Outclip(data=df, y=y) 
+    df<-Outclip(data=df, y=y)
   }
-  
-  
+
+
   #Plots using univariate
   print("Univariate Data-Plotting Univariates")
   DT1<-univariate(df,bins=bins,color="steelblue",uniCont = uniCont)
