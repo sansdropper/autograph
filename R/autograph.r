@@ -131,7 +131,8 @@ varSelect<-function(data,y=NULL,MissThreshold=50,corthresh=.9,maxFact=25,ID=NULL
   return(optimum)
 }
 
-#Capping and Flooring
+# #Capping and Flooring
+
 Outclip <-function(data, y=NULL)
 
 {
@@ -141,26 +142,63 @@ Outclip <-function(data, y=NULL)
   {
     if(class(data[[i]]) == "numeric")
     {
-      Q3<-quantile(data[[i]],.99,type = 7)
-      Q1<-quantile(data[[i]],.01,type = 7)
-      data[,i] <- ifelse(data[,i] < Q1,Q1,data[,i])
-      data[,i] <- ifelse(data[,i] > Q3,Q3,data[,i])
+      Q3<-quantile(data[[i]],.99,type = 7,na.rm = TRUE)
+      Q1<-quantile(data[[i]],.01,type = 7,na.rm = TRUE)
+      data[[i]]<-sapply(data[[i]],function(x)ifelse(x < Q1,Q1,x))
+      data[[i]]<-sapply(data[[i]],function(x)ifelse(x > Q3,Q3,x))
     }
   }
   }
   else
   {for(i in colnames(data) & i!=y)
   {
-    if(class(data[[i]) == "numeric")
-    { Q3<-quantile(data[[i]],.99,type = 7)
-    Q1<-quantile(data[[i]],.01,type = 7)
-    data[,i] <- ifelse(data[,i] < Q1,Q1,data[,i])
-    data[,i] <- ifelse(data[,i] > Q3,Q3,data[,i])
+    if(class(data[,i]) == "numeric")
+    { Q3<-quantile(data[[i]],.99,type = 7,na.rm = TRUE)
+    Q1<-quantile(data[[i]],.01,type = 7,na.rm=TRUE)
+    data[[i]]<-sapply(data[[i]],function(x)ifelse(x < Q1,Q1,x))
+    data[[i]]<-sapply(data[[i]],function(x)ifelse(x > Q3,Q3,x))
     }
   }
   }
   return(data)
 }
+# Outclip <-function(data, y=NULL)
+#
+# {
+#
+#   if(is.null(y) == TRUE)
+#   {for(i in colnames(data))
+#       {
+#         if(class(data[[i]]) == "numeric")
+#         {
+#           Q3<-quantile(data[[i]],.99,type = 7)
+#           Q1<-quantile(data[[i]],.01,type = 7)
+#           for(j in rownames(data))
+#           {
+#             data[,i] <- ifelse(data[j,i] < Q1,Q1,data[j,i])
+#             data[,i] <- ifelse(data[j,i] > Q3,Q3,data[j,i])
+#           }
+#           # data[,i] <- ifelse(data[,i] < Q1,Q1,data[,i])
+#           # data[,i] <- ifelse(data[,i] > Q3,Q3,data[,i])
+#         }
+#       }
+#   }
+#   else
+#   {for(i in colnames(data) & i!=y)
+#         {
+#           if(class(data[[i]]) == "numeric")
+#             { Q3<-quantile(data[[i]],.99,type = 7)
+#               Q1<-quantile(data[[i]],.01,type = 7)
+#               for(j in rownames(data))
+#                    {
+#                       data[,i] <- ifelse(data[j,i] < Q1,Q1,data[j,i])
+#                       data[,i] <- ifelse(data[j,i] > Q3,Q3,data[j,i])
+#                    }
+#             }
+#         }
+#   }
+#   return(data)
+# }
 # Plotting Functions
 
 #1. freqpoly   # Needs a single continuous variable thats divided to bins,shows with lines  #validated
