@@ -458,6 +458,7 @@ autoGraph<-function (df,
   DT3<-rbind(DT1,DT2)
   print(DT3)
   fwrite(DT3,"file.csv")
+  return(df)
 }
 
 
