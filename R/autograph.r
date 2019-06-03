@@ -21,12 +21,15 @@
 #' @import dlookr
 #' @export
 
+#Removing Special Characters and White Spaces from column Names
+ColClean<-function(df){sapply(colnames(df),function(x)gsub("[[:punct:][:blank:]]+", "",x))}
+
 
 #Overview Function
 
 overview<-function(data)
 {
-  # #Removing Special Characters and White Spaces from column Names
+  # Removing Special Characters and White Spaces from column Names
   # colnames(df)<-sapply(colnames(data),function(x)gsub("[[:punct:][:blank:]]+", "",x))
 
   print(paste0("Glimpse of dataframe"))
@@ -80,7 +83,8 @@ format<-function(data,y=NULL,minCont=20)
 varSelect<-function(data,y=NULL,MissThreshold=50,corthresh=.9,maxFact=25,ID=NULL)
 {
   #Removing Special Characters and White Spaces from column Names
-  colnames(data)<-sapply(colnames(data),function(x)gsub("[[:punct:][:blank:]]+", "",x))
+  colnames(data)<-ColClean(df=data)
+
   if(is.null(ID)==FALSE)
   {data<-select(data,-ID)}
   #Removal Category Variables with High Number of Levels
@@ -340,8 +344,8 @@ scatterplot_cont <- function(data, x, y,DT=NULL,alpha = 0.5)
 
 #Univariate Module Creation
 univariate<-function(df,DT=NULL,bins=10,color = "steelblue",uniCont="histogram")
-{  #Removing Special Characters and White Spaces from column Names
-  colnames(df)<-sapply(colnames(df),function(x)gsub("[[:punct:][:blank:]]+", "",x))
+{ #Removing Special Characters and White Spaces from column Names
+  colnames(df)<-ColClean(df=df)
 
   for(i in colnames(df))
   {
@@ -364,7 +368,7 @@ univariate<-function(df,DT=NULL,bins=10,color = "steelblue",uniCont="histogram")
 
 bivariate<-function(df,r=NULL,DT=NULL) #Remove null when integrating with main
 {  #Removing Special Characters and White Spaces from column Names
-  colnames(df)<-sapply(colnames(df),function(x)gsub("[[:punct:][:blank:]]+", "",x))
+  colnames(df)<-ColClean(df=df))
   if(is.null(r)==TRUE)              # Y not provided
   {print(paste0("Response Variable Unavailable"))}
   else
@@ -419,7 +423,7 @@ autoGraph<-function (df,
   rm(packs, nopacks, p)
 
   #Removing Special Characters and White Spaces from column Names
-  colnames(df)<-sapply(colnames(df),function(x)gsub("[[:punct:][:blank:]]+", "",x))
+  colnames(df)<-ColClean(df)
 
   #Creating Empty Dataframe
   DT<-data.table()
