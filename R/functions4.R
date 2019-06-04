@@ -436,4 +436,40 @@ autoGraph<-function (df,
   return(df)
 }
 
+#Automatic Reporting on PDF
+autoReport<-function (df,
+                      y=NULL,
+                      uniCont ="histogram",    #Options: histogram,density,freqpoly
+                      minCont = 15,
+                      bins = 20,
+                      capfloor=TRUE,
+                      MissThreshold=50,
+                      corthresh =.9,
+                      ID=NULL,
+                      maxFact=25)
+{
+  output_file <- "output.pdf"
+  output_dir <-getwd()
+
+  pathname<-paste0("rmd_template/report.Rmd")
+  report_dir <- system.file(pathname, package = "autoGraph")
+
+  suppressWarnings(render(input = report_dir, output_file = output_file,
+                          output_dir = output_dir, intermediates_dir = output_dir,
+                          params = list(df = df,
+                                        y=y,
+                                        minCont = minCont,
+                                        bins = bins,
+                                        capfloor = capfloor,
+                                        MissThreshold = MissThreshold,
+                                        corthresh = corthresh,
+                                        ID = ID,
+                                        maxFact = maxFact
+                          )))
+
+
+
+  report_path <- file.path(output_dir, output_file)
+  system(paste0('open "', report_path, '"'))
+}
 
