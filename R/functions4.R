@@ -337,7 +337,7 @@ univariate<-function(df,DT=NULL,bins=10,color = "steelblue",uniCont="histogram")
 
 bivariate<-function(df,r=NULL,DT=NULL) #Remove null when integrating with main
 {  #Removing Special Characters and White Spaces from column Names
-  colnames(df)<-ColClean(df=df))
+  colnames(df)<-ColClean(df=df)
   if(is.null(r)==TRUE)              # Y not provided
   {print(paste0("Response Variable Unavailable"))}
   else
