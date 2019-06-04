@@ -48,7 +48,7 @@ DT<-data.table()
 *Understanding the dimensions of the dataset, variable names, overall missing summary and data types of each variables.*
 
 
-```{r Chunk2,ref.label='Chunk1',echo=FALSE}
+```{r Chunk2,ref.label='Chunk1',echo=FALSE,results='asis'}
 ## Glimpsing the basic structure of the Data
 overview(df)
 ```
