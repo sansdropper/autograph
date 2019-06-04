@@ -91,7 +91,7 @@ df<-outclip(data = df, y = y, capfloor = capfloor)
 
 ```{r echo=FALSE}
   #Plots using univariate
-  univariate(df,bins=bins,color="steelblue",uniCont = uniCont)
+DT1<-univariate(df,bins=bins,color="steelblue",uniCont = uniCont)
 ```
 
 
@@ -102,17 +102,12 @@ df<-outclip(data = df, y = y, capfloor = capfloor)
 
 
 ```{r echo=FALSE}
-bivariate(df,r=y)
+DT2<-bivariate(df,r=y)
 ```
 
 
 ```{r results='hide'}
-##8. Interim 4
-#Univariate
-DT1<-univariate(df,bins=bins,color="steelblue",uniCont = uniCont)
-#Bivariate
-DT2<-bivariate(df,r=y)
-#Combined
+##8. Interim 4 #Combined
 DT3<-rbind(DT1,DT2)
 fwrite(DT3,"file.csv")
 ```
