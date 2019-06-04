@@ -30,7 +30,7 @@ ColClean<-function(df){sapply(colnames(df),function(x)gsub("[[:punct:][:blank:]]
 overview<-function(data)
 {
   # Removing Special Characters and White Spaces from column Names
-  # colnames(df)<-sapply(colnames(data),function(x)gsub("[[:punct:][:blank:]]+", "",x))
+  colnames(data)<-ColClean(df=data)
 
   print(paste0("Glimpse of dataframe"))
   glimpse(data)                          #Glimpse the Data
@@ -44,8 +44,8 @@ overview<-function(data)
 # Format Function creation
 format<-function(data,y=NULL,minCont=20)
 {
-  # #Removing Special Characters and White Spaces from column Names
-  # colnames(df)<-sapply(colnames(df),function(x)gsub("[[:punct:][:blank:]]+", "",x))
+  #Removing Special Characters and White Spaces from column Names
+  colnames(data)<-ColClean(df=data)
 
   if(is.null(y) == TRUE)
   {
@@ -137,73 +137,40 @@ varSelect<-function(data,y=NULL,MissThreshold=50,corthresh=.9,maxFact=25,ID=NULL
 
 # #Capping and Flooring
 
-Outclip <-function(data, y=NULL)
+Outclip <-function(data, y=NULL,capfloor=TRUE)
 
-{
+{#Removing Special Characters and White Spaces from column Names
+  colnames(data)<-ColClean(df=data)
 
-  if(is.null(y) == TRUE)
-  {for(i in colnames(data))
-  {
-    if(class(data[[i]]) == "numeric")
-    {
-      Q3<-quantile(data[[i]],.99,type = 7,na.rm = TRUE)
-      Q1<-quantile(data[[i]],.01,type = 7,na.rm = TRUE)
-      data[[i]]<-sapply(data[[i]],function(x)ifelse(x < Q1,Q1,x))
-      data[[i]]<-sapply(data[[i]],function(x)ifelse(x > Q3,Q3,x))
-    }
-  }
-  }
-  else
-  {for(i in colnames(data) & i!=y)
-  {
-    if(class(data[,i]) == "numeric")
-    { Q3<-quantile(data[[i]],.99,type = 7,na.rm = TRUE)
-    Q1<-quantile(data[[i]],.01,type = 7,na.rm=TRUE)
-    data[[i]]<-sapply(data[[i]],function(x)ifelse(x < Q1,Q1,x))
-    data[[i]]<-sapply(data[[i]],function(x)ifelse(x > Q3,Q3,x))
-    }
-  }
-  }
-  return(data)
+   if(capfloor==TRUE)
+      {
+          if(is.null(y) == TRUE)
+              {for(i in colnames(data))
+                  {
+                      if(class(data[[i]]) == "numeric")
+                          {
+                                Q3<-quantile(data[[i]],.99,type = 7,na.rm = TRUE)
+                                Q1<-quantile(data[[i]],.01,type = 7,na.rm = TRUE)
+                                data[[i]]<-sapply(data[[i]],function(x)ifelse(x < Q1,Q1,x))
+                                data[[i]]<-sapply(data[[i]],function(x)ifelse(x > Q3,Q3,x))
+                          }
+                  }
+              }
+          else
+              {for(i in colnames(data) )
+                  {
+                        if(class(data[[i]]) == "numeric" & i!=y)
+                            {
+                                Q3<-quantile(data[[i]],.99,type = 7,na.rm = TRUE)
+                                Q1<-quantile(data[[i]],.01,type = 7,na.rm=TRUE)
+                                data[[i]]<-sapply(data[[i]],function(x)ifelse(x < Q1,Q1,x))
+                                data[[i]]<-sapply(data[[i]],function(x)ifelse(x > Q3,Q3,x))
+                            }
+                  }
+              }
+      }
+      return(data)
 }
-# Outclip <-function(data, y=NULL)
-#
-# {
-#
-#   if(is.null(y) == TRUE)
-#   {for(i in colnames(data))
-#       {
-#         if(class(data[[i]]) == "numeric")
-#         {
-#           Q3<-quantile(data[[i]],.99,type = 7)
-#           Q1<-quantile(data[[i]],.01,type = 7)
-#           for(j in rownames(data))
-#           {
-#             data[,i] <- ifelse(data[j,i] < Q1,Q1,data[j,i])
-#             data[,i] <- ifelse(data[j,i] > Q3,Q3,data[j,i])
-#           }
-#           # data[,i] <- ifelse(data[,i] < Q1,Q1,data[,i])
-#           # data[,i] <- ifelse(data[,i] > Q3,Q3,data[,i])
-#         }
-#       }
-#   }
-#   else
-#   {for(i in colnames(data) & i!=y)
-#         {
-#           if(class(data[[i]]) == "numeric")
-#             { Q3<-quantile(data[[i]],.99,type = 7)
-#               Q1<-quantile(data[[i]],.01,type = 7)
-#               for(j in rownames(data))
-#                    {
-#                       data[,i] <- ifelse(data[j,i] < Q1,Q1,data[j,i])
-#                       data[,i] <- ifelse(data[j,i] > Q3,Q3,data[j,i])
-#                    }
-#             }
-#         }
-#   }
-#   return(data)
-# }
-# Plotting Functions
 
 #1. freqpoly   # Needs a single continuous variable thats divided to bins,shows with lines  #validated
 freqpoly_X<- function(data,x,y=NULL,DT=NULL,color = "steelblue",nrBins = 15,alpha = 0.5)
@@ -368,7 +335,7 @@ univariate<-function(df,DT=NULL,bins=10,color = "steelblue",uniCont="histogram")
 
 bivariate<-function(df,r=NULL,DT=NULL) #Remove null when integrating with main
 {  #Removing Special Characters and White Spaces from column Names
-  colnames(df)<-ColClean(df=df))
+  colnames(df)<-ColClean(df=df)
   if(is.null(r)==TRUE)              # Y not provided
   {print(paste0("Response Variable Unavailable"))}
   else
@@ -444,14 +411,10 @@ autoGraph<-function (df,
   df<-select(df,optimum)
 
   #Outlier Clipping
-  if(capfloor==TRUE)
-  {
-    df<-Outclip(data=df, y=y)
-  }
-
+  df<-Outclip(data=df, y=y,capfloor==capfloor)
 
   #Plots using univariate
-  print("Univariate Data-Plotting Univariates")
+  print("Univariate Data-Plotting")
   DT1<-univariate(df,bins=bins,color="steelblue",uniCont = uniCont)
 
   #Plots using bivariate

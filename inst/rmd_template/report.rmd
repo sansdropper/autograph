@@ -1,0 +1,109 @@
+---
+title: "autoGraph Report"
+author: Avik Das
+Date: 3/6/2019
+output:
+  html_document: 
+    theme: cerulean
+    toc: yes
+    toc_depth: 6
+params:
+data: data
+y: y
+label: label
+sc: sc
+sn: sn
+Rc: Rc
+---
+  
+```{r setup, results='hide'}
+library(rmarkdown)
+library(SmartEDA)
+library(knitr)
+library(scales)
+library(gridExtra)
+library(ggplot2)
+library(autoGraph)
+#data <- params$data
+```
+
+### Exploratory Data analysis (EDA)
+---
+*We analyze the dataset to summarize the the main characteristics of variables, with visual graphs, without using a statistical model. In addition we perform Formatting,variable Selection and Outlier
+Treatment.* 
+```{r Chunk1,ref.label='setup', results='hide'}
+#  1. Interim - Cleaning Column Names and Creating Empty Data Table
+colnames(data)<-ColClean(df=data)
+DT<-data.table()
+```
+---
+### 2. Overview of the data
+*Understanding the dimensions of the dataset, variable names, overall missing summary and data types of each variables.*
+---
+```{r Chunk2,ref.label='Chunk1',echo=FALSE}
+## Glimpsing the basic structure of the Data
+glimpse(data)
+## Descriptive Statistics of Numerical Data
+describe(data)
+## Missing and Unique Data Attributes
+diagnose(data)
+```
+
+```{r Chunk3,ref.label='Chunk2', results='hide'}
+#3.Interim2 - Formatting the Data into Category an Numerical
+df<-format(data=data,y=y,minCont=20)
+
+```
+---
+##4.Variables Selected
+---
+```{r Chunk4,ref.label='Chunk3',echo=FALSE}
+varSelect(data=data,y,MissThreshold = MissThreshold,corthresh = corthresh,maxFact = maxFact,ID=ID)
+```
+---
+##5. Interim 3 Variable Selection and Outlier Clipping
+---
+```{r Chunk5,ref.label='Chunk4', results='hide'}
+optimum<-varSelect(data=data,y,MissThreshold = MissThreshold,corthresh = corthresh,maxFact = maxFact,ID=ID)
+data<-select(data,optimum)
+data<-Outclip(data=data, y=y,capfloor==capfloor)
+```
+---
+##6. Univariate Data-Plotting
+---  
+```{r Chunk6,ref.label='Chunk5', echo=FALSE}
+  #Plots using univariate
+  univariate(data,bins=bins,color="steelblue",uniCont = uniCont)
+```
+
+##7. Bivariate Data - Plotting
+```{r Chunk7,ref.label='Chunk6',echo=FALSE}
+bivariate(data,r=y)
+```
+
+```{r Chunk8,ref.label='Chunk7',results=hide}
+##8. Interim 4
+#Univariate
+DT1<-univariate(data,bins=bins,color="steelblue",uniCont = uniCont)
+#Bivariate
+DT2<-bivariate(data,r=y)
+#Combined
+DT3<-rbind(DT1,DT2)
+fwrite(DT3,"file.csv")
+```
+
+##9. Summary of Graphical Outputs
+```{r Chunk9,ref.label='Chunk8',echo=FALSE}
+print(DT3)
+
+```
+---
+title: "autoGraph RMD"
+author: "Avik Das"
+date: "6/3/2019"
+output: html_document
+---
+
+# ```{r setup, include=FALSE}
+# knitr::opts_chunk$set(echo = TRUE)
+# ```
