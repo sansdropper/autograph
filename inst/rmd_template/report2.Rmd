@@ -38,7 +38,7 @@ library(autoGraph)
 *We analyze the dataset to summarize the main characteristics of the variables with visual graphs without using a statistical model. In addion we perform Formatting,variable Selection and Outlier Treatment.*
 
 
-```{r Chunk1,ref.label='setup', results='hide'}
+```{r  results='hide'}
 #  1. Interim - Cleaning Column Names and Creating Empty Data Table
 colnames(df)<-colclean(df=df)
 DT<-data.table()
@@ -51,13 +51,13 @@ DT<-data.table()
 *Understanding the dimensions of the dataset, variable names, overall missing summary and data types of each variables.*
 
 
-```{r Chunk2,ref.label='Chunk1',echo=FALSE,results='asis'}
+```{r echo=FALSE,results='asis'}
 ## Glimpsing the basic structure of the Data
 overview(df)
 ```
 
 
-```{r Chunk3,ref.label='Chunk2', results='hide'}
+```{r  results='hide'}
 #3.Interim2 - Formatting the Data into Category an Numerical
 df<-format(data=df,y=y,minCont=20)
 
@@ -70,12 +70,12 @@ df<-format(data=df,y=y,minCont=20)
 *We select Optimum variables by removing High Coorelation,Low Variance,High Missing and High Factor Catgory Variables*
 
 
-```{r Chunk4,ref.label='Chunk3',echo=FALSE}
+```{r echo=FALSE}
 varSelect(data=df,y,MissThreshold = MissThreshold,corthresh = corthresh,maxFact = maxFact,ID=ID)
 ```
 
 
-```{r Chunk5,ref.label='Chunk4', results='hide'}
+```{r results='hide'}
 ##5. Interim 3 Variable Selection and Outlier Clipping
 optimum<-varSelect(data=df,y,MissThreshold = MissThreshold,corthresh = corthresh,maxFact = maxFact,ID=ID)
 df<-select(df,optimum)
@@ -89,7 +89,7 @@ df<-outclip(data = df, y = y, capfloor = capfloor)
 *We Plot the univariate  Plots of the Predictor Variables.*
 
 
-```{r Chunk6,ref.label='Chunk5', echo=FALSE}
+```{r echo=FALSE}
   #Plots using univariate
   univariate(df,bins=bins,color="steelblue",uniCont = uniCont)
 ```
@@ -101,12 +101,12 @@ df<-outclip(data = df, y = y, capfloor = capfloor)
 *We Plot the bivariate Plots of the Predictor Variables againts the Reponse Variables subject to availability of the Reponse Variable.*
 
 
-```{r Chunk7,ref.label='Chunk6',echo=FALSE}
+```{r echo=FALSE}
 bivariate(df,r=y)
 ```
 
 
-```{r Chunk8,ref.label='Chunk7',results='hide'}
+```{r results='hide'}
 ##8. Interim 4
 #Univariate
 DT1<-univariate(df,bins=bins,color="steelblue",uniCont = uniCont)
@@ -121,7 +121,7 @@ fwrite(DT3,"file.csv")
 ### Summary of Graphical Outputs
 
 
-```{r Chunk9,ref.label='Chunk8',echo=FALSE}
+```{r echo=FALSE}
 print(DT3)
 
 ```
