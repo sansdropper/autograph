@@ -8,7 +8,7 @@ output:
     toc: yes
     toc_depth: 6
 params:
-data: data
+df: df
 y: y
 label: label
 sc: sc
@@ -33,7 +33,7 @@ library(autoGraph)
 Treatment.* 
 ```{r Chunk1,ref.label='setup', results='hide'}
 #  1. Interim - Cleaning Column Names and Creating Empty Data Table
-colnames(data)<-ColClean(df=data)
+colnames(df)<-ColClean(df=df)
 DT<-data.table()
 ```
 ---
@@ -42,51 +42,51 @@ DT<-data.table()
 ---
 ```{r Chunk2,ref.label='Chunk1',echo=FALSE}
 ## Glimpsing the basic structure of the Data
-glimpse(data)
+glimpse(df)
 ## Descriptive Statistics of Numerical Data
-describe(data)
+describe(df)
 ## Missing and Unique Data Attributes
-diagnose(data)
+diagnose(df)
 ```
 
 ```{r Chunk3,ref.label='Chunk2', results='hide'}
 #3.Interim2 - Formatting the Data into Category an Numerical
-df<-format(data=data,y=y,minCont=20)
+df<-format(data=df,y=y,minCont=20)
 
 ```
 ---
 ##4.Variables Selected
 ---
 ```{r Chunk4,ref.label='Chunk3',echo=FALSE}
-varSelect(data=data,y,MissThreshold = MissThreshold,corthresh = corthresh,maxFact = maxFact,ID=ID)
+varSelect(data=df,y,MissThreshold = MissThreshold,corthresh = corthresh,maxFact = maxFact,ID=ID)
 ```
 ---
 ##5. Interim 3 Variable Selection and Outlier Clipping
 ---
 ```{r Chunk5,ref.label='Chunk4', results='hide'}
-optimum<-varSelect(data=data,y,MissThreshold = MissThreshold,corthresh = corthresh,maxFact = maxFact,ID=ID)
-data<-select(data,optimum)
-data<-Outclip(data=data, y=y,capfloor==capfloor)
+optimum<-varSelect(data=df,y,MissThreshold = MissThreshold,corthresh = corthresh,maxFact = maxFact,ID=ID)
+df<-select(df,optimum)
+df<-Outclip(data=df, y=y,capfloor=capfloor)
 ```
 ---
 ##6. Univariate Data-Plotting
 ---  
 ```{r Chunk6,ref.label='Chunk5', echo=FALSE}
   #Plots using univariate
-  univariate(data,bins=bins,color="steelblue",uniCont = uniCont)
+  univariate(df,bins=bins,color="steelblue",uniCont = uniCont)
 ```
 
 ##7. Bivariate Data - Plotting
 ```{r Chunk7,ref.label='Chunk6',echo=FALSE}
-bivariate(data,r=y)
+bivariate(df,r=y)
 ```
 
 ```{r Chunk8,ref.label='Chunk7',results=hide}
 ##8. Interim 4
 #Univariate
-DT1<-univariate(data,bins=bins,color="steelblue",uniCont = uniCont)
+DT1<-univariate(df,bins=bins,color="steelblue",uniCont = uniCont)
 #Bivariate
-DT2<-bivariate(data,r=y)
+DT2<-bivariate(df,r=y)
 #Combined
 DT3<-rbind(DT1,DT2)
 fwrite(DT3,"file.csv")
