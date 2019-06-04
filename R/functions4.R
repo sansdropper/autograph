@@ -141,7 +141,6 @@ Outclip <-function(data, y=NULL,capfloor=TRUE)
 
 {#Removing Special Characters and White Spaces from column Names
   colnames(data)<-ColClean(df=data)
-
    if(capfloor==TRUE)
       {
           if(is.null(y) == TRUE)
@@ -171,6 +170,8 @@ Outclip <-function(data, y=NULL,capfloor=TRUE)
       }
       return(data)
 }
+
+# Plotting Functions
 
 #1. freqpoly   # Needs a single continuous variable thats divided to bins,shows with lines  #validated
 freqpoly_X<- function(data,x,y=NULL,DT=NULL,color = "steelblue",nrBins = 15,alpha = 0.5)
@@ -335,7 +336,7 @@ univariate<-function(df,DT=NULL,bins=10,color = "steelblue",uniCont="histogram")
 
 bivariate<-function(df,r=NULL,DT=NULL) #Remove null when integrating with main
 {  #Removing Special Characters and White Spaces from column Names
-  colnames(df)<-ColClean(df=df)
+  colnames(df)<-ColClean(df=df))
   if(is.null(r)==TRUE)              # Y not provided
   {print(paste0("Response Variable Unavailable"))}
   else
