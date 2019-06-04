@@ -40,7 +40,7 @@ Treatment.*
 
 ```{r Chunk1,ref.label='setup', results='hide'}
 #  1. Interim - Cleaning Column Names and Creating Empty Data Table
-colnames(df)<-ColClean(df=df)
+colnames(df)<-colclean(df=df)
 DT<-data.table()
 ```
 
@@ -76,14 +76,11 @@ varSelect(data=df,y,MissThreshold = MissThreshold,corthresh = corthresh,maxFact 
 
 ---
 
-##5. Interim 3 Variable Selection and Outlier Clipping
-
----
-
 ```{r Chunk5,ref.label='Chunk4', results='hide'}
+##5. Interim 3 Variable Selection and Outlier Clipping
 optimum<-varSelect(data=df,y,MissThreshold = MissThreshold,corthresh = corthresh,maxFact = maxFact,ID=ID)
 df<-select(df,optimum)
-df<-Outclip(data = df, y = y, capfloor = capfloor)
+df<-outclip(data = df, y = y, capfloor = capfloor)
 ```
 
 ---
