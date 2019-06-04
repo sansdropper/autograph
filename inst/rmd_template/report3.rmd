@@ -38,7 +38,7 @@ library(autoGraph)
 *We analyze the dataset to summarize the main characteristics of the variables with visual graphs without using a statistical model. In addion we perform Formatting,variable Selection and Outlier Treatment.*
 
 
-```{r  results='hide'}
+```{r  results='hide',echo=FALSE}
 #  1. Interim - Cleaning Column Names and Creating Empty Data Table
 colnames(df)<-colclean(df=df)
 DT<-data.table()
@@ -51,16 +51,17 @@ DT<-data.table()
 *Understanding the dimensions of the dataset, variable names, overall missing summary and data types of each variables.*
 
 
-```{r echo=FALSE,results='asis'}
+```{r echo=FALSE}
 ## Glimpsing the basic structure of the Data
 overview(df)
 ```
 
 
-#```{r  results='hide'}
+```{r  results='hide',echo=FALSE}
 #3.Interim2 - Formatting the Data into Category an Numerical
-#df<-format(data=df,y=y,minCont=20)
-#```
+df<-format(data=df,y=y,minCont=20)
+
+```
 
 
 ## Variables Selected
@@ -70,20 +71,16 @@ overview(df)
 
 
 ```{r echo=FALSE}
-df<-format(data=df,y=y,minCont=20)
 varSelect(data=df,y,MissThreshold = MissThreshold,corthresh = corthresh,maxFact = maxFact,ID=ID)
+```
+
+
+```{r results='hide',echo=FALSE}
+##5. Interim 3 Variable Selection and Outlier Clipping
 optimum<-varSelect(data=df,y,MissThreshold = MissThreshold,corthresh = corthresh,maxFact = maxFact,ID=ID)
 df<-select(df,optimum)
 df<-outclip(data = df, y = y, capfloor = capfloor)
 ```
-
-
-#```{r results='hide'}
-##5. Interim 3 Variable Selection and Outlier Clipping
-#optimum<-varSelect(data=df,y,MissThreshold = MissThreshold,corthresh = corthresh,maxFact = #maxFact,ID=ID)
-#df<-select(df,optimum)
-#df<-outclip(data = df, y = y, capfloor = capfloor)
-#```
 
 
 ### Univariate Data-Plotting
@@ -109,18 +106,17 @@ DT2<-bivariate(df,r=y)
 ```
 
 
-# ```{r results='hide'}
-# ##8. Interim 4 #Combined
-# 
-# ```
+```{r results='hide',echo=FALSE}
+##8. Interim 4 #Combined
+DT3<-rbind(DT1,DT2)
+fwrite(DT3,"file.csv")
+```
 
 
 ### Summary of Graphical Outputs
 
 
 ```{r echo=FALSE}
-DT3<-rbind(DT1,DT2)
-fwrite(DT3,"file.csv")
 print(DT3)
 
 ```
