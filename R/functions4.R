@@ -22,7 +22,7 @@
 #' @export
 
 #Removing Special Characters and White Spaces from column Names
-ColClean<-function(df){sapply(colnames(df),function(x)gsub("[[:punct:][:blank:]]+", "",x))}
+colclean<-function(df){sapply(colnames(df),function(x)gsub("[[:punct:][:blank:]]+", "",x))}
 
 
 #Overview Function
@@ -30,7 +30,7 @@ ColClean<-function(df){sapply(colnames(df),function(x)gsub("[[:punct:][:blank:]]
 overview<-function(data)
 {
   # Removing Special Characters and White Spaces from column Names
-  colnames(data)<-ColClean(df=data)
+  colnames(data)<-colclean(df=data)
 
   print(paste0("Glimpse of dataframe"))
   print(glimpse(data) )                         #Glimpse the Data
@@ -45,7 +45,7 @@ overview<-function(data)
 format<-function(data,y=NULL,minCont=20)
 {
   #Removing Special Characters and White Spaces from column Names
-  colnames(data)<-ColClean(df=data)
+  colnames(data)<-colclean(df=data)
 
   if(is.null(y) == TRUE)
   {
@@ -83,7 +83,7 @@ format<-function(data,y=NULL,minCont=20)
 varSelect<-function(data,y=NULL,MissThreshold=50,corthresh=.9,maxFact=25,ID=NULL)
 {
   #Removing Special Characters and White Spaces from column Names
-  colnames(data)<-ColClean(df=data)
+  colnames(data)<-colclean(df=data)
 
   #Removing ID Features
   if(is.null(ID)==FALSE)
@@ -138,10 +138,10 @@ varSelect<-function(data,y=NULL,MissThreshold=50,corthresh=.9,maxFact=25,ID=NULL
 
 # #Capping and Flooring
 
-Outclip <-function(data, y=NULL,capfloor=TRUE)
+outclip <-function(data, y=NULL,capfloor=TRUE)
 
 {#Removing Special Characters and White Spaces from column Names
-  colnames(data)<-ColClean(df=data)
+  colnames(data)<-colclean(df=data)
    if(capfloor==TRUE)
       {
           if(is.null(y) == TRUE)
@@ -314,7 +314,7 @@ scatterplot_cont <- function(data, x, y,DT=NULL,alpha = 0.5)
 #Univariate Module Creation
 univariate<-function(df,DT=NULL,bins=10,color = "steelblue",uniCont="histogram")
 { #Removing Special Characters and White Spaces from column Names
-  colnames(df)<-ColClean(df=df)
+  colnames(df)<-colclean(df=df)
 
   for(i in colnames(df))
   {
@@ -337,7 +337,7 @@ univariate<-function(df,DT=NULL,bins=10,color = "steelblue",uniCont="histogram")
 
 bivariate<-function(df,r=NULL,DT=NULL) #Remove null when integrating with main
 {  #Removing Special Characters and White Spaces from column Names
-  colnames(df)<-ColClean(df=df)
+  colnames(df)<-colclean(df=df)
   if(is.null(r)==TRUE)              # Y not provided
   {print(paste0("Response Variable Unavailable"))}
   else
@@ -392,7 +392,7 @@ autoGraph<-function (df,
   rm(packs, nopacks, p)
 
   #Removing Special Characters and White Spaces from column Names
-  colnames(df)<-ColClean(df)
+  colnames(df)<-colclean(df)
 
   #Creating Empty Dataframe
   DT<-data.table()
