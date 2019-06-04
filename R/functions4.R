@@ -33,7 +33,7 @@ overview<-function(data)
   colnames(data)<-ColClean(df=data)
 
   print(paste0("Glimpse of dataframe"))
-  glimpse(data)                          #Glimpse the Data
+  print(glimpse(data) )                         #Glimpse the Data
   print(paste0("Descriptive Statistics of Numerical Data"))
   print(describe(data))                  #Numerical Summary
   print(paste0("Missing and Unique Data Attributes"))
@@ -85,10 +85,11 @@ varSelect<-function(data,y=NULL,MissThreshold=50,corthresh=.9,maxFact=25,ID=NULL
   #Removing Special Characters and White Spaces from column Names
   colnames(data)<-ColClean(df=data)
 
+  #Removing ID Features
   if(is.null(ID)==FALSE)
   {data<-select(data,-ID)}
-  #Removal Category Variables with High Number of Levels
 
+  #Removal Category Variables with High Number of Levels
   HighLevel<-c()
 
   for(i in colnames(data))
