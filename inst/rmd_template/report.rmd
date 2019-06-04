@@ -2,7 +2,11 @@
 title : "autoGraph Report"
 author: Avik Das
 Date  : 3/6/2019
-output: pdf
+output: 
+   pdf_document:
+            toc: true
+            toc_depth: 2
+            df_print: kable
 params:
 df: df
 y: y
