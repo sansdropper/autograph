@@ -2,11 +2,7 @@
 title : "autoGraph Report"
 author: Avik Das
 Date  : 3/6/2019
-output:
-  pdf: 
-    theme: cerulean
-    toc: yes
-    toc_depth: 6
+output: pdf
 params:
 df: df
 y: y
