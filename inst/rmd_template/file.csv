@@ -1,0 +1,6 @@
+Type,Predictor,Response,Plot
+Univariate,Id,No Response,Histogram
+Univariate,SepalLengthCm,No Response,Histogram
+Univariate,SepalWidthCm,No Response,Histogram
+Univariate,PetalWidthCm,No Response,Histogram
+Univariate,Species,No Response,Bar
