@@ -1,9 +1,9 @@
 ---
-title: "autoGraph Report"
+title : "autoGraph Report"
 author: Avik Das
-Date: 3/6/2019
+Date  : 3/6/2019
 output:
-  html_document: 
+  pdf: 
     theme: cerulean
     toc: yes
     toc_depth: 6
@@ -117,14 +117,9 @@ fwrite(DT3,"file.csv")
 print(DT3)
 
 ```
-
 ---
-
-title: "autoGraph RMD"
+title:  "autoGraph RMD"
 author: "Avik Das"
-date: "6/3/2019"
+date:   "6/3/2019"
 output: html_document
-
 ---
-
-
