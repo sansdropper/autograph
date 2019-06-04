@@ -6,7 +6,7 @@ output:
    pdf_document:
             toc: true
             toc_depth: 2
-            df_print: kable
+            df_print: default
 params:
 df: df
 y: y
@@ -33,10 +33,8 @@ library(autoGraph)
 
 
 ### Exploratory Data analysis (EDA)
----
 
-*We analyze the dataset to summarize the the main characteristics of variables, with visual graphs, without using a statistical model. In addition we perform Formatting,variable Selection and Outlier
-Treatment.* 
+*We analyze the dataset to summarize the main characteristics of the variables with visual graphs without using a statistical model. In addion we perform Formatting,variable Selection and Outlier Treatment.*
 
 ```{r Chunk1,ref.label='setup', results='hide'}
 #  1. Interim - Cleaning Column Names and Creating Empty Data Table
@@ -44,12 +42,11 @@ colnames(df)<-colclean(df=df)
 DT<-data.table()
 ```
 
----
-### 2. Overview of the data
+
+### Overview of the data
 
 *Understanding the dimensions of the dataset, variable names, overall missing summary and data types of each variables.*
 
----
 
 ```{r Chunk2,ref.label='Chunk1',echo=FALSE}
 ## Glimpsing the basic structure of the Data
@@ -62,19 +59,16 @@ df<-format(data=df,y=y,minCont=20)
 
 ```
 
----
 
-##4.Variables Selected
+## Variables Selected
 
 *We select Optimum variables by removing High Coorelation,Low Variance,High Missing and High Factor Catgory Variables*
 
----
 
 ```{r Chunk4,ref.label='Chunk3',echo=FALSE}
 varSelect(data=df,y,MissThreshold = MissThreshold,corthresh = corthresh,maxFact = maxFact,ID=ID)
 ```
 
----
 
 ```{r Chunk5,ref.label='Chunk4', results='hide'}
 ##5. Interim 3 Variable Selection and Outlier Clipping
@@ -83,18 +77,21 @@ df<-select(df,optimum)
 df<-outclip(data = df, y = y, capfloor = capfloor)
 ```
 
----
 
-##6. Univariate Data-Plotting
+### Univariate Data-Plotting
 
----  
+*We Plot the univariate  Plots of the Predictor Variables.*
 
 ```{r Chunk6,ref.label='Chunk5', echo=FALSE}
   #Plots using univariate
   univariate(df,bins=bins,color="steelblue",uniCont = uniCont)
 ```
 
-##7. Bivariate Data - Plotting
+### Bivariate Data - Plotting
+
+*We Plot the bivariate Plots of the Predictor Variables againts the Reponse Variables subject to availability of the Reponse Variable.*
+
+
 
 ```{r Chunk7,ref.label='Chunk6',echo=FALSE}
 bivariate(df,r=y)
@@ -111,7 +108,7 @@ DT3<-rbind(DT1,DT2)
 fwrite(DT3,"file.csv")
 ```
 
-##9. Summary of Graphical Outputs
+### Summary of Graphical Outputs
 
 ```{r Chunk9,ref.label='Chunk8',echo=FALSE}
 print(DT3)
