@@ -20,7 +20,7 @@ maxFact: maxFact
 
 ---
   
-```{r setup, results='hide'}
+```{r setup, results='hide',echo=FALSE}
 library(rmarkdown)
 library(SmartEDA)
 library(knitr)
@@ -32,8 +32,7 @@ library(autoGraph)
 ```
 
 
-### Exploratory Data analysis (EDA)
-
+# Objective: Exploratory Data Analysis
 
 *We analyze the dataset to summarize the main characteristics of the variables with visual graphs without using a statistical model. In addion we perform Formatting,variable Selection and Outlier Treatment.*
 
@@ -45,15 +44,29 @@ DT<-data.table()
 ```
 
 
-### Overview of the data
+# Overview of the data
 
 
 *Understanding the dimensions of the dataset, variable names, overall missing summary and data types of each variables.*
 
-
-```{r echo=FALSE}
 ## Glimpsing the basic structure of the Data
-overview(df)
+```{r echo=FALSE}
+
+glimpse(df)
+```
+
+
+## Descriptive Statistics of Numerical Data
+```{r echo=FALSE}
+
+describe(df)
+```
+
+
+## Missing and Unique Data Attributes
+```{r echo=FALSE}
+## Missing and Unique Data Attributes
+diagnose(df)
 ```
 
 
@@ -64,7 +77,7 @@ df<-format(data=df,y=y,minCont=20)
 ```
 
 
-## Variables Selected
+# Variables Selected
 
 
 *We select Optimum variables by removing High Coorelation,Low Variance,High Missing and High Factor Catgory Variables*
@@ -83,7 +96,7 @@ df<-outclip(data = df, y = y, capfloor = capfloor)
 ```
 
 
-### Univariate Data-Plotting
+# Univariate Data-Plotting
 
 
 *We Plot the univariate  Plots of the Predictor Variables.*
@@ -95,7 +108,7 @@ DT1<-univariate(df,bins=bins,color="steelblue",uniCont = uniCont)
 ```
 
 
-### Bivariate Data - Plotting
+# Bivariate Data - Plotting
 
 
 *We Plot the bivariate Plots of the Predictor Variables againts the Reponse Variables subject to availability of the Reponse Variable.*
