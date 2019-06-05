@@ -239,7 +239,27 @@ density_X <- function(data,x,y=NULL,DT=NULL,color = "steelblue",alpha = 0.5)
   return(DT)
 }
 
-#4. Bar Graph   #Validated
+#4. Percentage Distribution
+percFreq_X<-function(df,x,y=NULL,DT=NULL,nrBins=10,color="steelblue",alpha=.6)
+    {
+
+      if (class(df[[x]]) == "numeric")
+         {  df[[x]]<-sapply(df[[x]],function(x)ifelse(is.na(x)==TRUE,0,x))
+            df[,paste0(x,"bin"):= as.numeric(cut_interval(df[[x]],nrBins))]
+            p<-ggplot(df, aes_string(x = paste0(x,"bin"))) +
+            geom_bar(aes(y=(..count..)/sum(..count..)),alpha = alpha, fill = color, color = "gray") + labs(y="Percentage")+scale_y_continuous(labels=scales::percent)+ggtitle(paste0(i,"d Distribution"))+theme(axis.text.x = element_text(face="bold",size=6, angle=45,hjust=1))
+            print(p)
+            ggsave(paste0("Univariate_",x,".png"))
+            #return(p)
+            z<-data.table()
+            z[,Type:="Univariate"][,Predictor:=x][,Response:=ifelse(is.null(y)==TRUE,"No Response",y)][,Plot:="Percentage Frequency"]
+            DT<-rbind(DT,z)
+            #print(DT)
+            return(DT)
+         }
+    }
+
+#5. Bar Graph   #Validated
 bar_X <- function(data,x,y=NULL,DT=NULL,color = "steelblue")
 {
   p <- ggplot(data , aes_string(x = x)) +
@@ -259,7 +279,7 @@ bar_X <- function(data,x,y=NULL,DT=NULL,color = "steelblue")
   return(DT)
 }
 
-#5. Scatterplot with category-category # Not Validated
+#6. Scatterplot with category-category # Not Validated
 scatterplot_cat <- function(data, x, y,DT=NULL,alpha = 0.5)
 {
   p <- ggplot(data , aes_string(x = x, y = y, color = y)) +
@@ -278,7 +298,7 @@ scatterplot_cat <- function(data, x, y,DT=NULL,alpha = 0.5)
   return(DT)
 }
 
-#6.Boxplot  #Validated
+#7.Boxplot  #Validated
 boxplot_XY <- function(data, x, y,DT=NULL,alpha = 0.5)
 {
   p <- ggplot(data, aes_string(x = y, y = x, color = y)) +
@@ -298,7 +318,7 @@ boxplot_XY <- function(data, x, y,DT=NULL,alpha = 0.5)
   return(DT)
 }
 
-#7. Scatter Plot
+#8. Scatter Plot
 scatterplot_cont <- function(data, x, y,DT=NULL,alpha = 0.5)
 {
   p <- ggplot(data , aes_string(x = x, y = y, color = y)) +
@@ -334,9 +354,11 @@ univariate<-function(df,DT=NULL,bins=10,color = "steelblue",uniCont="histogram")
       { DT<- unique(rbind(DT,density_X(data=df,x=i,color = color,alpha = 0.5)))}#alpha-transparency, theme = theme
       else if(uniCont == "freqpoly")#Done
       {DT<- unique(rbind(DT,freqpoly_X(data=df,x=i,color = color,nrBins = bins,alpha = 0.5)))}
+      else if(uniCont == "percFreq")#Done
+      {DT<- unique(rbind(DT,percFreq_X(df=df,x=i,color = color,nrBins = bins,alpha = 0.5)))}
     }
   }
-  #print(unique(DT))
+  #print(unique(DT))percFreq_X<-function(df,nbins=10)
   return(unique(DT))
 }
 
@@ -380,7 +402,7 @@ bivariate<-function(df,r=NULL,DT=NULL) #Remove null when integrating with main
 #Automatic Graphs
 autoGraph<-function (df,
                      y=NULL,
-                     uniCont ="histogram",    #Options: histogram,density,freqpoly
+                     uniCont ="histogram",    #Options: histogram,density,freqpoly,percFreq
                      minCont = 15,
                      bins = 20,
                      capfloor=TRUE,
@@ -439,7 +461,7 @@ autoGraph<-function (df,
 #Automatic Reporting on PDF
 autoReport<-function (df,
                       y=NULL,
-                      uniCont ="histogram",    #Options: histogram,density,freqpoly
+                      uniCont ="histogram",    #Options: histogram,density,freqpoly,percfreq
                       minCont = 15,
                       bins = 20,
                       capfloor=TRUE,
