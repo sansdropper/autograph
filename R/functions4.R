@@ -247,7 +247,7 @@ percFreq_X<-function(df,x,y=NULL,DT=NULL,nrBins=10,color="steelblue",alpha=.6)
          {  df[[x]]<-sapply(df[[x]],function(x)ifelse(is.na(x)==TRUE,0,x))
             df[,paste0(x,"bin"):= as.numeric(cut_interval(df[[x]],nrBins))]
             p<-ggplot(df, aes_string(x = paste0(x,"bin"))) +
-            geom_bar(aes(y=(..count..)/sum(..count..)),alpha = alpha, fill = color, color = "gray") + labs(y="Percentage")+scale_y_continuous(labels=scales::percent)+ggtitle(paste0(i,"d Distribution"))+theme(axis.text.x = element_text(face="bold",size=6, angle=45,hjust=1))
+            geom_bar(aes(y=(..count..)/sum(..count..)),alpha = alpha, fill = color, color = "gray") + labs(y="Percentage")+scale_y_continuous(labels=scales::percent)+ggtitle(paste0(x,"d Distribution"))+theme(axis.text.x = element_text(face="bold",size=6, angle=45,hjust=1))
             print(p)
             ggsave(paste0("Univariate_",x,".png"))
             #return(p)
@@ -358,7 +358,7 @@ univariate<-function(df,DT=NULL,bins=10,color = "steelblue",uniCont="histogram")
       {DT<- unique(rbind(DT,percFreq_X(df=df,x=i,color = color,nrBins = bins,alpha = 0.5)))}
     }
   }
-  #print(unique(DT))percFreq_X<-function(df,nbins=10)
+
   return(unique(DT))
 }
 
