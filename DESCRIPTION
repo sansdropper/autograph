@@ -13,4 +13,5 @@ Imports:
         tidyverse,
         data.table,
         dlookr,
-        caret
+        caret,
+        rmarkdown

@@ -241,23 +241,23 @@ density_X <- function(data,x,y=NULL,DT=NULL,color = "steelblue",alpha = 0.5)
 
 #4. Percentage Distribution
 percFreq_X<-function(df,x,y=NULL,DT=NULL,nrBins=10,color="steelblue",alpha=.6)
-    {
+{
 
-      if (class(df[[x]]) == "numeric")
-         {  df[[x]]<-sapply(df[[x]],function(x)ifelse(is.na(x)==TRUE,0,x))
-            df[,paste0(x,"bin"):= as.numeric(cut_interval(df[[x]],nrBins))]
-            p<-ggplot(df, aes_string(x = paste0(x,"bin"))) +
-            geom_bar(aes(y=(..count..)/sum(..count..)),alpha = alpha, fill = color, color = "gray") + labs(y="Percentage")+scale_y_continuous(labels=scales::percent)+ggtitle(paste0(x,"d Distribution"))+theme(axis.text.x = element_text(face="bold",size=6, angle=45,hjust=1))
-            print(p)
-            ggsave(paste0("Univariate_",x,".png"))
-            #return(p)
-            z<-data.table()
-            z[,Type:="Univariate"][,Predictor:=x][,Response:=ifelse(is.null(y)==TRUE,"No Response",y)][,Plot:="Percentage Frequency"]
-            DT<-rbind(DT,z)
-            #print(DT)
-            return(DT)
-         }
-    }
+  if (class(df[[x]]) == "numeric")
+  {  df[[x]]<-sapply(df[[x]],function(x)ifelse(is.na(x)==TRUE,0,x))
+  df[,paste0(x,"bin"):= as.numeric(cut_interval(df[[x]],nrBins))]
+  p<-ggplot(df, aes_string(x = paste0(x,"bin"))) + geom_bar(aes(y=(..count..)/sum(..count..)),alpha = alpha, fill = color, color = "gray") + labs(y="Percentage")+scale_y_continuous(labels=scales::percent)+ggtitle(paste0(x,"d Distribution"))+theme(axis.text.x = element_text(face="bold",size=6, angle=45,hjust=1))
+  print(p)
+  ggsave(paste0("Univariate_",x,".png"))
+  #return(p)
+  z<-data.table()
+  z[,Type:="Univariate"][,Predictor:=x][,Response:=ifelse(is.null(y)==TRUE,"No Response",y)][,Plot:="Percentage Frequency"]
+  DT<-rbind(DT,z)
+  #print(DT)
+  return(DT)
+  }
+}
+
 
 #5. Bar Graph   #Validated
 bar_X <- function(data,x,y=NULL,DT=NULL,color = "steelblue")
@@ -404,7 +404,7 @@ autoGraph<-function (df,
                      y=NULL,
                      uniCont ="histogram",    #Options: histogram,density,freqpoly,percFreq
                      minCont = 15,
-                     bins = 20,
+                     bins = 10,
                      capfloor=TRUE,
                      MissThreshold=50,
                      corthresh =.9,
@@ -413,7 +413,7 @@ autoGraph<-function (df,
 
 {
   # install/load packages  Module
-  packs <- c("tidyverse","data.table","dlookr","caret")
+  packs <- c("tidyverse","data.table","dlookr","caret","rmarkdown")
   nopacks <- packs[!packs %in% rownames(installed.packages())]
   if(length(nopacks)>0) install.packages(nopacks , dependencies = T)
   for ( p in packs) library(p, character.only = T)
@@ -441,7 +441,7 @@ autoGraph<-function (df,
   df<-select(df,optimum)
 
   #Outlier Clipping
-  df<-Outclip(data=df, y=y,capfloor==capfloor)
+  df<-outclip(data=df, y=y,capfloor==capfloor)
 
   #Plots using univariate
   print("Univariate Data-Plotting")
@@ -463,7 +463,7 @@ autoReport<-function (df,
                       y=NULL,
                       uniCont ="histogram",    #Options: histogram,density,freqpoly,percfreq
                       minCont = 15,
-                      bins = 20,
+                      bins = 10,
                       capfloor=TRUE,
                       MissThreshold=50,
                       corthresh =.9,
