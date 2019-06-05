@@ -75,7 +75,7 @@ format<-function(data,y=NULL,minCont=20)
       {data[[i]] <- as.numeric(data[[i]])}
 
       else if(class(data[[i]]) %in% c("integer","numeric") & length(unique(data[[i]])) <= minCont & i != y)
-      {df[[i]] <- as.factor(as.character(data[[i]]))}
+      {data[[i]] <- as.factor(as.character(data[[i]]))}
 
       else if(class(data[[i]]) %in% c("factor","character") & i!= y)
       {data[[i]] <- as.factor(as.character(data[[i]]))}
@@ -88,12 +88,12 @@ format<-function(data,y=NULL,minCont=20)
 #Variable Selection Function Creation
 varSelect<-function(data,y=NULL,MissThreshold=50,corthresh=.9,maxFact=25,ID=NULL)
 {
-  #Removing Special Characters and White Spaces from column Names
-  colnames(data)<-colclean(df=data)
-
   #Removing ID Features
   if(is.null(ID)==FALSE)
   {data<-select(data,-ID)}
+
+  #Removing Special Characters and White Spaces from column Names
+  colnames(data)<-colclean(df=data)
 
   #Removal Category Variables with High Number of Levels
   HighLevel<-c()

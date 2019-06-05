@@ -72,7 +72,7 @@ diagnose(df)
 
 ```{r  results='hide',echo=FALSE}
 #3.Interim2 - Formatting the Data into Category an Numerical
-df<-format(data=df,y=y,minCont=20)
+df<-autoGraph::format(data=df,y=y,minCont=20)
 
 ```
 
